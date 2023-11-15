@@ -48,6 +48,9 @@ public class CircleButtonsAnimation : MonoBehaviour
 
     private IEnumerator EnableStartAnimation()
     {
+        playPanelCanvasGroup.blocksRaycasts = false;
+        settingsPanelCanvasGroup.blocksRaycasts = false;
+        storePanelCanvasGroup.blocksRaycasts = false;
         storeButton.rotation = Quaternion.Euler(0, 0, -120);
         settingsButton.rotation = Quaternion.Euler(0, 0, 120);
         playButton.rotation = Quaternion.Euler(0, 0, 0);
@@ -72,10 +75,15 @@ public class CircleButtonsAnimation : MonoBehaviour
         settingsButton.rotation = Quaternion.Euler(0, 0, 0);
         storeCanvasGroup.alpha = 1;
         playCanvasGroup.alpha = 1;
+        playPanelCanvasGroup.blocksRaycasts = true;
     }
     
     private IEnumerator EnableSettingsAnimation()
     {
+        playPanelCanvasGroup.blocksRaycasts = false;
+        settingsPanelCanvasGroup.blocksRaycasts = false;
+        storePanelCanvasGroup.blocksRaycasts = false;
+        
         while (settingsButton.rotation.eulerAngles.z < 120)
         {
             var distance = Mathf.Abs(120 - settingsButton.rotation.eulerAngles.z);
@@ -106,10 +114,16 @@ public class CircleButtonsAnimation : MonoBehaviour
             settingsPanelCanvasGroup.alpha += panelFadeSpeed * (1 - (playPanelCanvasGroup.alpha - panelsThreshold)) * Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+        
+        settingsPanelCanvasGroup.blocksRaycasts = true;
     }
     
     private IEnumerator EnablePlayAnimation()
     {
+        playPanelCanvasGroup.blocksRaycasts = false;
+        settingsPanelCanvasGroup.blocksRaycasts = false;
+        storePanelCanvasGroup.blocksRaycasts = false;
+        
         while (settingsButton.rotation.eulerAngles.z < 120)
         {
             var distance = Mathf.Abs(120 - settingsButton.rotation.eulerAngles.z);
@@ -132,6 +146,10 @@ public class CircleButtonsAnimation : MonoBehaviour
     
     private IEnumerator EnableStoreAnimation()
     {
+        playPanelCanvasGroup.blocksRaycasts = false;
+        settingsPanelCanvasGroup.blocksRaycasts = false;
+        storePanelCanvasGroup.blocksRaycasts = false;
+        
         while (settingsButton.rotation.eulerAngles.z < 120)
         {
             var distance = Mathf.Abs(120 - settingsButton.rotation.eulerAngles.z);
@@ -149,5 +167,7 @@ public class CircleButtonsAnimation : MonoBehaviour
         settingsButton.rotation = Quaternion.Euler(0, 0, 120);
         settingsCanvasGroup.alpha = 0;
         playCanvasGroup.alpha = 0;
+        
+        storePanelCanvasGroup.blocksRaycasts = true;
     }
 }
