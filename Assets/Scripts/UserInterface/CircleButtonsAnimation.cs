@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using Image = UnityEngine.UI.Image;
 
 public class CircleButtonsAnimation : MonoBehaviour
 {
@@ -28,6 +25,14 @@ public class CircleButtonsAnimation : MonoBehaviour
 
     private void Start()
     {
+        playPanelCanvasGroup.alpha = 1f;
+        settingsPanelCanvasGroup.alpha = 0;
+        storePanelCanvasGroup.alpha = 0;
+        LoadStartScreenAnimation();
+    }
+
+    public void LoadStartScreenAnimation()
+    {
         StartCoroutine(EnableStartAnimation());
     }
 
@@ -46,6 +51,16 @@ public class CircleButtonsAnimation : MonoBehaviour
         StartCoroutine(EnablePlayAnimation());
     }
 
+    public void StoreToStartPanel()
+    {
+        StartCoroutine(StoreToStartPanelAnimation());
+    }
+
+    public void SettingsToStartPanel()
+    {
+        StartCoroutine(SettingsToStartPanelAnimation());
+    }
+
     private IEnumerator EnableStartAnimation()
     {
         playPanelCanvasGroup.blocksRaycasts = false;
@@ -57,6 +72,7 @@ public class CircleButtonsAnimation : MonoBehaviour
         storeIcon.rotation = Quaternion.Euler(0, 0, 120);
         storeCanvasGroup.alpha = 0;
         playCanvasGroup.alpha = 0;
+        settingsCanvasGroup.alpha = 0;
 
         while (settingsButton.rotation.eulerAngles.z < 121)
         {
@@ -68,6 +84,7 @@ public class CircleButtonsAnimation : MonoBehaviour
             storeIcon.rotation = Quaternion.Euler(0, 0, storeIcon.rotation.eulerAngles.z + (rotationSpeed * (distance + threshold) / 120 * Time.deltaTime));
             playCanvasGroup.alpha += (fadeSpeed * (playCanvasGroup.alpha + buttonsThreshold) * Time.deltaTime);
             storeCanvasGroup.alpha += (fadeSpeed * (storeCanvasGroup.alpha + buttonsThreshold) * Time.deltaTime);
+            settingsCanvasGroup.alpha += (fadeSpeed * (settingsCanvasGroup.alpha + buttonsThreshold) * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
         
@@ -75,6 +92,7 @@ public class CircleButtonsAnimation : MonoBehaviour
         settingsButton.rotation = Quaternion.Euler(0, 0, 0);
         storeCanvasGroup.alpha = 1;
         playCanvasGroup.alpha = 1;
+        settingsCanvasGroup.alpha = 1;
         playPanelCanvasGroup.blocksRaycasts = true;
     }
     
@@ -111,7 +129,7 @@ public class CircleButtonsAnimation : MonoBehaviour
         
         while (settingsPanelCanvasGroup.alpha < 1)
         {
-            settingsPanelCanvasGroup.alpha += panelFadeSpeed * (1 - (playPanelCanvasGroup.alpha - panelsThreshold)) * Time.deltaTime;
+            settingsPanelCanvasGroup.alpha += panelFadeSpeed * (1 - (settingsPanelCanvasGroup.alpha - panelsThreshold)) * Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
         
@@ -168,6 +186,54 @@ public class CircleButtonsAnimation : MonoBehaviour
         settingsCanvasGroup.alpha = 0;
         playCanvasGroup.alpha = 0;
         
+        while (playPanelCanvasGroup.alpha > 0)
+        {
+            playPanelCanvasGroup.alpha -= panelFadeSpeed * (playPanelCanvasGroup.alpha + panelsThreshold) * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        
+        while (storePanelCanvasGroup.alpha < 1)
+        {
+            storePanelCanvasGroup.alpha += panelFadeSpeed * (1 - (storePanelCanvasGroup.alpha - panelsThreshold)) * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        
         storePanelCanvasGroup.blocksRaycasts = true;
+    }
+    
+    private IEnumerator StoreToStartPanelAnimation()
+    {
+        playPanelCanvasGroup.blocksRaycasts = false;
+        settingsPanelCanvasGroup.blocksRaycasts = false;
+        storePanelCanvasGroup.blocksRaycasts = false;
+        
+        while (storePanelCanvasGroup.alpha > 0)
+        {
+            storePanelCanvasGroup.alpha -= panelFadeSpeed * (1 - (storePanelCanvasGroup.alpha - panelsThreshold)) * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        storePanelCanvasGroup.alpha = 0;
+        playPanelCanvasGroup.alpha = 1;
+        
+        StartCoroutine(EnableStartAnimation());
+    }
+    
+    private IEnumerator SettingsToStartPanelAnimation()
+    {
+        playPanelCanvasGroup.blocksRaycasts = false;
+        settingsPanelCanvasGroup.blocksRaycasts = false;
+        storePanelCanvasGroup.blocksRaycasts = false;
+        
+        while (settingsPanelCanvasGroup.alpha > 0)
+        {
+            settingsPanelCanvasGroup.alpha -= panelFadeSpeed * (1 - (settingsPanelCanvasGroup.alpha - panelsThreshold)) * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        settingsPanelCanvasGroup.alpha = 0;
+        playPanelCanvasGroup.alpha = 1;
+        
+        StartCoroutine(EnableStartAnimation());
     }
 }
