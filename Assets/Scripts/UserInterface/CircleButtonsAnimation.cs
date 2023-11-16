@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CircleButtonsAnimation : MonoBehaviour
 {
@@ -160,6 +161,7 @@ public class CircleButtonsAnimation : MonoBehaviour
         settingsButton.rotation = Quaternion.Euler(0, 0, 120);
         storeCanvasGroup.alpha = 0;
         settingsCanvasGroup.alpha = 0;
+        SceneManager.LoadScene("GameScene");
     }
     
     private IEnumerator EnableStoreAnimation()
