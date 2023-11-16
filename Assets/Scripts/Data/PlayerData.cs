@@ -12,6 +12,9 @@ public class PlayerData
     private int sFxEnabled;
     private int tutorialEnabled;
 
+    private float screenSizeX;
+    private float screenSizeY;
+    
     public int CurrentGameProgress
     {
         get => currentGameProgress;
@@ -59,6 +62,16 @@ public class PlayerData
         get => sFxEnabled;
         set => sFxEnabled = value;
     }
+
+    // public Vector2 ScreenSize
+    // {
+    //     get => new Vector2(screenSizeX, screenSizeY);
+    //     set
+    //     {
+    //         screenSizeX = value.x;
+    //         screenSizeY = value.y;
+    //     }
+    // }
     
     public PlayerData(bool isClearData)
     {
@@ -78,6 +91,8 @@ public class PlayerData
             
             musicEnabled = PlayerPrefs.GetInt("musicEnabled", 1);
             sFxEnabled = PlayerPrefs.GetInt("sFxEnabled", 1);
+            screenSizeX = PlayerPrefs.GetFloat("screenSizeX", 0);
+            screenSizeY = PlayerPrefs.GetFloat("screenSizeY", 0);
         }
         
     }
@@ -93,6 +108,9 @@ public class PlayerData
         
         PlayerPrefs.SetInt("musicEnabled", MusicEnabled);
         PlayerPrefs.SetInt("sFxEnabled", SFxEnabled);
+        
+        PlayerPrefs.SetFloat("screenSizeX", screenSizeX);
+        PlayerPrefs.SetFloat("screenSizeY", screenSizeY);
     }
 
     private void ClearPlayerData()
