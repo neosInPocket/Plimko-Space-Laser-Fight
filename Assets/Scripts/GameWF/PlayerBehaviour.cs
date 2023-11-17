@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
 
@@ -10,10 +11,14 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject dieEffect;
     [SerializeField] private float alphaSpeed;
+    [SerializeField] private Transform start; 
     private int currentLifes;
+    private int currentPoints;
     public Action<int> PlayerDamage;
     public Action<int> GoldCollected;
     private PlayerData playerData;
+    public Rigidbody2D Rigid => rigidB;
+    public int CurrentPoints => currentPoints;
     
     private void Start()
     {
@@ -26,10 +31,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void ResetPlayer()
     {
+        transform.position = start.position;
         rigidB.constraints = RigidbodyConstraints2D.None;
         spriteRenderer.enabled = true;
         currentLifes = playerData.CurrentLifePoints;
-        Disable();
+        currentPoints = 0;
     }
 
     public void Enable()
@@ -40,16 +46,35 @@ public class PlayerBehaviour : MonoBehaviour
     public void Disable()
     {
         projectileShooter.DisableShooter();
+        rigidB.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.TryGetComponent<EnemyOrb>(out EnemyOrb enemyOrb))
+        {
+            Damage();
+        }
+            
+        if (other.transform.parent is null) return;
+        
         if (other.transform.parent.TryGetComponent<ScreenEdgesZone>(out ScreenEdgesZone edges))
         {
-            
+            Damage();
         }
     }
 
+    public void InvokeGoldCollected(int reward)
+    {
+        currentPoints += reward;
+        GoldCollected?.Invoke(currentPoints);
+    }
+    
     public void Damage()
     {
         bool isDead = currentLifes - 1 <= 0;
@@ -70,8 +95,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     private IEnumerator Die()
     {
+        Disable();
         spriteRenderer.enabled = false;
-        rigidB.constraints = RigidbodyConstraints2D.FreezeAll;
+        
         var dieEffectInstance = Instantiate(dieEffect, transform.position, transform.rotation);
         yield return new WaitForSeconds(1);
         Destroy(dieEffectInstance.gameObject);

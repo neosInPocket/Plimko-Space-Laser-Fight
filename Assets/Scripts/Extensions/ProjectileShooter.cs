@@ -6,20 +6,11 @@ using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 public class ProjectileShooter : MonoBehaviour
 {
     [SerializeField] private Projectile projectilePrefab;
+    [SerializeField] private PlayerBehaviour player;
+    [SerializeField] private float playerPortalSpeed;
     private Projectile lastProjectile;
-    private float[] projectileSpeeds = { 10, 2, 15, 4 };
-    private float projectileSpeed;
-    
-    private void Awake()
-    {
-        
-
-        var playerdata = new PlayerData(false);
-        projectileSpeed = projectileSpeeds[playerdata.CurrentProjectileSpeedPoints];
-        Debug.Log(playerdata.CurrentProjectileSpeedPoints);
-    }
-
     public void EnableShooter()
+    
     {
         Touch.onFingerDown += OnFingerDown;
     }
@@ -43,15 +34,17 @@ public class ProjectileShooter : MonoBehaviour
         
         transform.up = zeroZShootDirection;
         lastProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        lastProjectile.Player = player;
         lastProjectile.FoundPortal += OnProjectileFoundOrb;
         
         lastProjectile.transform.up = zeroZShootDirection;
-        lastProjectile.SetProjectileSpeed(projectileSpeed);
     }
 
     private void OnProjectileFoundOrb(Vector2 position)
     {
-        transform.parent.position = position;
+        player.transform.position = position;
+        player.Rigid.velocity = Vector2.zero;
+        player.Rigid.AddForce(Vector2.up * playerPortalSpeed);
     }
     
     private void OnDestroy()

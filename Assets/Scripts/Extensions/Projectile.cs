@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Projectile : MonoBehaviour
 {
@@ -11,26 +9,20 @@ public class Projectile : MonoBehaviour
     [SerializeField] private GameObject blowEffect;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private CircleCollider2D circleCollider2D;
+    public Rigidbody2D RB => rb;
     public bool IsDestroyed { get; set; }
-    private Vector2 screenSize;
     public Action<Vector2> FoundPortal;
+    public Action<Projectile> Destroyed;
+    
+    private float[] projectileSpeeds = { 10, 2, 15, 4 };
+    private float projectileSpeed;
+    public PlayerBehaviour Player { get; set; }
     
     private void Start()
     {
-        screenSize = GameExtensions.screenSize;
-    }
-
-    public void SetProjectileSpeed(float speed)
-    {
-        rb.velocity = transform.up * speed;
-    }
-
-    private void Update()
-    {
-        if (Mathf.Abs(transform.position.x) > screenSize.x)
-        {
-            Blow();
-        }
+        var playerdata = new PlayerData(false);
+        projectileSpeed = projectileSpeeds[playerdata.CurrentProjectileSpeedPoints];
+        rb.velocity = transform.up * projectileSpeed;
     }
 
     private void OnTriggerEnter2D(Collider2D collider2D)
@@ -39,7 +31,8 @@ public class Projectile : MonoBehaviour
         if (portalOrb)
         {
             FoundPortal?.Invoke(portalOrb.transform.position);
-            Destroy(portalOrb.gameObject);
+            Player.InvokeGoldCollected(3);
+            portalOrb.TakeDamage();
             Blow();
         }
     }
@@ -57,6 +50,7 @@ public class Projectile : MonoBehaviour
     public void Blow()
     {
         if (IsDestroyed) return;
+        Destroyed?.Invoke(this);
         IsDestroyed = true;
         StartCoroutine(PlayBlowEffect());
     }

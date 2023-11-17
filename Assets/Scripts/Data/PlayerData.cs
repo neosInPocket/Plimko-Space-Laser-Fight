@@ -99,15 +99,15 @@ public class PlayerData
 
     public void SavePlayerData()
     {
-        PlayerPrefs.SetInt("currentGameProgress", CurrentGameProgress);
-        PlayerPrefs.SetInt("currentGold", CurrentGold);
-        PlayerPrefs.SetInt("currentLifePoints", CurrentLifePoints);
-        PlayerPrefs.SetInt("currentProjectileSpeedPoints", CurrentProjectileSpeedPoints);
-        PlayerPrefs.SetFloat("currentMusicVolume", CurrentMusicVolume);
-        PlayerPrefs.SetFloat("currentSFxVolume", CurrentSFxVolume);
+        PlayerPrefs.SetInt("currentGameProgress", currentGameProgress);
+        PlayerPrefs.SetInt("currentGold", currentGold);
+        PlayerPrefs.SetInt("currentLifePoints", currentLifePoints);
+        PlayerPrefs.SetInt("currentProjectileSpeedPoints", currentProjectileSpeedPoints);
+        PlayerPrefs.SetFloat("currentMusicVolume", currentMusicVolume);
+        PlayerPrefs.SetFloat("currentSFxVolume", currentSFxVolume);
         
-        PlayerPrefs.SetInt("musicEnabled", MusicEnabled);
-        PlayerPrefs.SetInt("sFxEnabled", SFxEnabled);
+        PlayerPrefs.SetInt("musicEnabled", musicEnabled);
+        PlayerPrefs.SetInt("sFxEnabled", sFxEnabled);
         
         PlayerPrefs.SetFloat("screenSizeX", screenSizeX);
         PlayerPrefs.SetFloat("screenSizeY", screenSizeY);
@@ -115,6 +115,16 @@ public class PlayerData
 
     private void ClearPlayerData()
     {
-        PlayerPrefs.DeleteAll();
+        currentGameProgress = 1;
+        currentGold = 100;
+        currentLifePoints = 1;
+        currentProjectileSpeedPoints = 0;
+        currentMusicVolume = 1;
+        currentSFxVolume = 1;
+        musicEnabled = 1;
+        sFxEnabled = 1;
+        screenSizeX = 0;
+        screenSizeY = 0;
+        SavePlayerData();
     }
 }
