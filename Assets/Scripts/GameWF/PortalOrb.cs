@@ -8,7 +8,7 @@ public class PortalOrb : MonoBehaviour
     [SerializeField] private CircleCollider2D circleCollider2D;
     [SerializeField] private GameObject destroyEffect;
     [SerializeField] private ParticleSystem particleSystem;
-    private bool isDead;
+    public bool isDead { get; set; }
     
     public CircleCollider2D CircleCollider2D => circleCollider2D;
 

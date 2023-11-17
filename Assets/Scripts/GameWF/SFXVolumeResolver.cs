@@ -8,8 +8,8 @@ public class SFXVolumeResolver : MonoBehaviour
 
     private void Start()
     {
-        var data = new PlayerData(false);
-        source.volume = data.CurrentSFxVolume;
-        source.enabled = data.SFxEnabled == 1;
+        PlayerData.Load();
+        source.volume = PlayerData.CurrentSFXVolume;
+        source.enabled = PlayerData.SFxEnabled == 1;
     }
 }

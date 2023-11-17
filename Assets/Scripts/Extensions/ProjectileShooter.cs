@@ -9,8 +9,8 @@ public class ProjectileShooter : MonoBehaviour
     [SerializeField] private PlayerBehaviour player;
     [SerializeField] private float playerPortalSpeed;
     private Projectile lastProjectile;
+    public Vector2 LastPortalPosition { get; set; }
     public void EnableShooter()
-    
     {
         Touch.onFingerDown += OnFingerDown;
     }
@@ -42,6 +42,7 @@ public class ProjectileShooter : MonoBehaviour
 
     private void OnProjectileFoundOrb(Vector2 position)
     {
+        LastPortalPosition = position;
         player.transform.position = position;
         player.Rigid.velocity = Vector2.zero;
         player.Rigid.AddForce(Vector2.up * playerPortalSpeed);
@@ -53,6 +54,15 @@ public class ProjectileShooter : MonoBehaviour
         if (lastProjectile != null)
         {
             lastProjectile.FoundPortal -= OnProjectileFoundOrb;
+        }
+    }
+
+    public void Restart()
+    {
+        if (lastProjectile != null)
+        {
+            Destroy(lastProjectile.gameObject);
+            lastProjectile = null;
         }
     }
 }

@@ -11,12 +11,11 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject dieEffect;
     [SerializeField] private float alphaSpeed;
-    [SerializeField] private Transform start; 
+    [SerializeField] private Transform start;
     private int currentLifes;
     private int currentPoints;
     public Action<int> PlayerDamage;
     public Action<int> GoldCollected;
-    private PlayerData playerData;
     public Rigidbody2D Rigid => rigidB;
     public int CurrentPoints => currentPoints;
     
@@ -24,17 +23,15 @@ public class PlayerBehaviour : MonoBehaviour
     {
         EnhancedTouchSupport.Enable();
         TouchSimulation.Enable();
-        
-        playerData = new PlayerData(false);
-        ResetPlayer();
     }
 
     public void ResetPlayer()
     {
+        Camera.main.transform.position = new Vector3(start.position.x, start.position.y, Camera.main.transform.position.z);
         transform.position = start.position;
-        rigidB.constraints = RigidbodyConstraints2D.None;
+        rigidB.constraints = RigidbodyConstraints2D.FreezePositionX;
         spriteRenderer.enabled = true;
-        currentLifes = playerData.CurrentLifePoints;
+        currentLifes = PlayerData.CurrentLifes;
         currentPoints = 0;
     }
 
@@ -47,11 +44,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         projectileShooter.DisableShooter();
         rigidB.constraints = RigidbodyConstraints2D.FreezeAll;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -86,10 +78,12 @@ public class PlayerBehaviour : MonoBehaviour
         else
         {
             currentLifes--;
+            transform.position = projectileShooter.LastPortalPosition;
+            rigidB.AddForce(Vector2.up * 50);
+            
             StartCoroutine(TakeDamageCor());
         }
         
-        currentLifes -= 1;
         PlayerDamage?.Invoke(currentLifes);
     }
 

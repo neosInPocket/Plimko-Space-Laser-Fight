@@ -28,6 +28,15 @@ public class EnemySpawner : MonoBehaviour
         portalOffset = Mathf.Abs(player.transform.position.y - lastPortal.transform.position.y);
     }
 
+    public void Restart()
+    {
+        lastOrb = firstOrb;
+        
+        firstPortal.gameObject.SetActive(true);
+        firstPortal.isDead = false;
+        lastPortal = firstPortal;
+    }
+    
     private void Update()
     {
         if (player.transform.position.y + offset > lastOrb.transform.position.y)
@@ -48,8 +57,8 @@ public class EnemySpawner : MonoBehaviour
             var currentPosition = lastPortal.transform.position;
             var radius = portalPrefab.CircleCollider2D.radius;
             
-            var randomX1 = Random.Range(-screenSize.x + radius + 0.1f, currentEnemyPosition.x - enemyRadius - 0.1f);
-            var randomX2 = Random.Range(currentEnemyPosition.x + enemyRadius + 0.1f, screenSize.x - radius - 0.1f);
+            var randomX1 = Random.Range(-screenSize.x + 2 * radius + 0.1f, currentEnemyPosition.x - enemyRadius - 0.1f);
+            var randomX2 = Random.Range(currentEnemyPosition.x + enemyRadius + 0.1f, screenSize.x - 2 * radius - 0.1f);
             var rnd = Random.Range(0, 2);
             var newOrbPosition = Vector2.one;
             if (rnd == 0)
@@ -62,6 +71,14 @@ public class EnemySpawner : MonoBehaviour
             }
             
             lastPortal = Instantiate(portalPrefab, newOrbPosition, Quaternion.identity, transform);
+        }
+    }
+
+    public void DestroyObjects()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
         }
     }
 }

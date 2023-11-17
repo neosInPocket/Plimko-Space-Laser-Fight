@@ -17,7 +17,7 @@ public class StoreResolver : MonoBehaviour
     
     private void Start()
     {
-        playerData = new PlayerData(false);
+        PlayerData.Load();
         RefreshStoreItems();
     }
 
@@ -32,7 +32,7 @@ public class StoreResolver : MonoBehaviour
 
     private void RefreshPlayerGoldText()
     {
-        goldText.text = playerData.CurrentGold.ToString();
+        goldText.text = PlayerData.CurrentGold.ToString();
     }
     
     private void RefreshLifeStars()
@@ -42,7 +42,7 @@ public class StoreResolver : MonoBehaviour
             life.enabled = false;
         }
 
-        for (int i = 0; i < playerData.CurrentLifePoints; i++)
+        for (int i = 0; i < PlayerData.CurrentLifes; i++)
         {
             lifePoints[i].enabled = true;
         }
@@ -55,7 +55,7 @@ public class StoreResolver : MonoBehaviour
             point.enabled = false;
         }
 
-        for (int i = 0; i < playerData.CurrentProjectileSpeedPoints; i++)
+        for (int i = 0; i < PlayerData.CurrentProjectileSpeed; i++)
         {
             speedPoints[i].enabled = true;
         }
@@ -63,29 +63,29 @@ public class StoreResolver : MonoBehaviour
 
     private void RefreshLifeButton()
     {
-        bool value = playerData.CurrentGold - 100 < 0 || playerData.CurrentLifePoints == 3;
+        bool value = PlayerData.CurrentGold - 100 < 0 || PlayerData.CurrentLifes == 3;
         lifeButton.interactable = !value;
     }
     
     private void RefreshSpeedButton()
     {
-        bool value = playerData.CurrentGold - 50 < 0 || playerData.CurrentProjectileSpeedPoints == 3;
+        bool value = PlayerData.CurrentGold - 50 < 0 || PlayerData.CurrentProjectileSpeed == 3;
         projectileSpeedButton.interactable = !value;
     }
 
     public void BuySpeedUpgrade()
     {
-        playerData.CurrentGold -= 50;
-        playerData.CurrentProjectileSpeedPoints += 1;
-        playerData.SavePlayerData();
+        PlayerData.CurrentGold -= 50;
+        PlayerData.CurrentProjectileSpeed += 1;
+        PlayerData.Save();
         RefreshStoreItems();
     }
     
     public void BuyLifeUpgrade()
     {
-        playerData.CurrentGold -= 100;
-        playerData.CurrentLifePoints += 1;
-        playerData.SavePlayerData();
+        PlayerData.CurrentGold -= 100;
+        PlayerData.CurrentLifes += 1;
+        PlayerData.Save();
         RefreshStoreItems();
     }
 }

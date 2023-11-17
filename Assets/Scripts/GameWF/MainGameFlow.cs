@@ -6,17 +6,22 @@ using UnityEngine;
 public class MainGameFlow : MonoBehaviour
 {
     [SerializeField] private PlayerBehaviour player;
+    [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField] private ProjectileShooter projectileShooter;
     
-    private PlayerData playerData;
     
     private void Start()
     {
-        playerData = new PlayerData(false);
+        PlayerData.Load();
+        player.ResetPlayer();
     }
 
     public void ResetGame()
     {
+        enemySpawner.DestroyObjects();
+        enemySpawner.Restart();
         player.ResetPlayer();
+        projectileShooter.Restart();
     }
 
     public void StartGame()

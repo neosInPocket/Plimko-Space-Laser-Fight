@@ -14,14 +14,14 @@ public class Projectile : MonoBehaviour
     public Action<Vector2> FoundPortal;
     public Action<Projectile> Destroyed;
     
-    private float[] projectileSpeeds = { 10, 2, 15, 4 };
+    private float[] projectileSpeeds = { 10, 12, 14, 16 };
     private float projectileSpeed;
     public PlayerBehaviour Player { get; set; }
     
     private void Start()
     {
-        var playerdata = new PlayerData(false);
-        projectileSpeed = projectileSpeeds[playerdata.CurrentProjectileSpeedPoints];
+        PlayerData.Load();
+        projectileSpeed = projectileSpeeds[PlayerData.CurrentProjectileSpeed];
         rb.velocity = transform.up * projectileSpeed;
     }
 

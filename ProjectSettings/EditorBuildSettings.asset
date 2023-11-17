@@ -11,4 +11,49 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: f81fecaad0adca84b833f997c2e8e5a9
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker.unity
+    guid: da408421d2e65104c915617a532a8ff0
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 1.unity
+    guid: 86caf62be406e7a4db380c2da91c5ce9
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 2.unity
+    guid: 9c63d617cccda4a47bc9e2fb84091349
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 3.unity
+    guid: d653c8a91239f004eabd07df56aff708
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 4.unity
+    guid: 9b0b6c91dbebab24e9b80308606e07cc
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 5.unity
+    guid: d8a77d6a44a4c00439a9fec7b00cec61
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 6.unity
+    guid: e7f93a109500b1e4b8d5791ebc5f1335
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 7.unity
+    guid: 3c5a9a6af497bc64982bd0564d47476b
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 8.unity
+    guid: bfdf4c6d1afe917439068e0ac76358a2
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 9.unity
+    guid: aeae280a07632be4a96d2cef47760f72
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 10.unity
+    guid: 036d0165a4f68f84894977271d0aef97
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 11.unity
+    guid: def34b984e368534dbc220b611918c00
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 12.unity
+    guid: c25e9afdd28696b46a29cebea2b62ee2
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 13.unity
+    guid: e2f571b49327e934ea35db21d115cc3d
+  - enabled: 1
+    path: Assets/Scenes/PortalInvoker 14.unity
+    guid: eb70a699c30c53943b3f9e8261234753
   m_configObjects: {}

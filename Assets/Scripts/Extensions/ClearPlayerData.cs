@@ -9,6 +9,9 @@ public class ClearPlayerData : MonoBehaviour
     
     private void Awake()
     {
-        PlayerData playerData = new PlayerData(isDelete);
+        if (isDelete)
+        {
+            PlayerData.ClearData();
+        }
     }
 }

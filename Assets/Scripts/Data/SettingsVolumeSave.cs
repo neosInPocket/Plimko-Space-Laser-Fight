@@ -11,22 +11,21 @@ public class SettingsVolumeSave : MonoBehaviour
     [SerializeField] private Slider sFxVolumeSlider;
     [SerializeField] private Image musicImage;
     [SerializeField] private Image sFxImage;
-    private PlayerData playerData;
 
     private void Start()
     {
-        playerData = new PlayerData(false);
-        musicVolumeSlider.value = playerData.CurrentMusicVolume;
-        sFxVolumeSlider.value = playerData.CurrentSFxVolume;
-        musicImage.enabled = playerData.MusicEnabled == 1;
-        sFxImage.enabled = playerData.SFxEnabled == 1;
+        PlayerData.Load();
+        musicVolumeSlider.value = PlayerData.CurrentMusicVolume;
+        sFxVolumeSlider.value = PlayerData.CurrentSFXVolume;
+        musicImage.enabled = PlayerData.MusicEnabled == 1;
+        sFxImage.enabled = PlayerData.SFxEnabled == 1;
     }
 
     public void SaveCurrentVolume()
     {
-        playerData.CurrentMusicVolume = musicVolumeSlider.value;
-        playerData.CurrentSFxVolume = sFxVolumeSlider.value;
-        playerData.SavePlayerData();
+        PlayerData.CurrentMusicVolume = musicVolumeSlider.value;
+        PlayerData.CurrentSFXVolume = sFxVolumeSlider.value;
+        PlayerData.Save();
     }
 
     public void ToggleMusic()
@@ -34,15 +33,15 @@ public class SettingsVolumeSave : MonoBehaviour
         if (musicImage.enabled)
         {
             musicImage.enabled = false;
-            playerData.MusicEnabled = 0;
-            playerData.SavePlayerData();
+            PlayerData.MusicEnabled = 0;
+            PlayerData.Save();
             loadMusicSaves.SetMusicEnabled(false);
         }
         else
         {
             musicImage.enabled = true;
-            playerData.MusicEnabled = 1;
-            playerData.SavePlayerData();
+            PlayerData.MusicEnabled = 1;
+            PlayerData.Save();
             loadMusicSaves.SetMusicEnabled(true);
         }
     }
@@ -52,14 +51,14 @@ public class SettingsVolumeSave : MonoBehaviour
         if (sFxImage.enabled)
         {
             sFxImage.enabled = false;
-            playerData.SFxEnabled = 0;
-            playerData.SavePlayerData();
+            PlayerData.SFxEnabled = 0;
+            PlayerData.Save();
         }
         else
         {
             sFxImage.enabled = true;
-            playerData.SFxEnabled = 1;
-            playerData.SavePlayerData();
+            PlayerData.SFxEnabled = 1;
+            PlayerData.Save();
         }
     }
 }
