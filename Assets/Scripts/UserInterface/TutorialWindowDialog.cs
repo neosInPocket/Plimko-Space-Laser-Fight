@@ -20,7 +20,7 @@ public class TutorialWindowDialog : MonoBehaviour
     {
         EnhancedTouchSupport.Enable();
         TouchSimulation.Enable();
-        characterDialogText.text = "WELCOME TO TIGER BRIDGE BUILDER!";
+        characterDialogText.text = "WELCOME TO Plimko Space: Laser Fight!";
         
         Touch.onFingerDown += Reply1;
     }
